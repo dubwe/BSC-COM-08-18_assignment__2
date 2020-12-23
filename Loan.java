@@ -14,19 +14,21 @@ import javafx.scene.text.TextAlignment;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.shape.Line;
-import javafx.scene.paint.Color;
+
 
 
 
 public class Loan extends Application{
 	//creating textfields areas to input the values for various crops 
-	private TextField maizeSize = new TextField();
-	private TextField soyaSize = new TextField();
-	private TextField groundnutsSize = new TextField();
-	private TextField saltSize = new TextField();
-	private TextField calculate = new TextField();
-	//creating a button that will calculate 
-	private Button btcalculate = new Button("Calculate");
+	private TextField saltResultTextField = new TextField();
+    private  TextField maizeTextField = new TextField();
+    private  TextField soyaTextField = new TextField();
+    private TextField gnutsTextField = new TextField();
+    private TextField saltTextField = new TextField();
+    private  TextField maizeResultTextField = new TextField();
+    private  TextField soyaResultTextField = new TextField();
+    private TextField gnutsResultTextField = new TextField();
+    GridPane pane = new GridPane();
 
 
 	@Override
@@ -40,50 +42,82 @@ public class Loan extends Application{
 		topBox.setAlignment(Pos.CENTER);
 
 		Label maizeLabel = new Label("Maize");
-		maizeLabel.setPrefWidth(120);
-		TextField maizeTextField = new TextField();
+		maizeLabel.setPrefWidth(120);		
 		maizeLabel.setTextAlignment(TextAlignment.RIGHT);
 		maizeTextField.setPrefColumnCount(10);
 		maizeTextField.setPrefWidth(40);
 		HBox maizeBox = new HBox(maizeLabel, maizeTextField);
 
 		Label soyaLabel = new Label("soya");
-		soyaLabel.setPrefWidth(120);
-		TextField soyaTextField = new TextField();
+		soyaLabel.setPrefWidth(120);		
 		soyaTextField.setPrefColumnCount(10);
 		soyaTextField.setPrefWidth(40);
 		HBox soyaBox = new HBox(soyaLabel, soyaTextField);
 
 		Label gnutsLabel = new Label("Groundnuts:");
 		gnutsLabel.setPrefWidth(120);
-		TextField gnutsTextField = new TextField();
 		gnutsTextField.setPrefColumnCount(8);
-
+		gnutsTextField.setPrefWidth(40);
 		HBox gnutsBox = new HBox(gnutsLabel, gnutsTextField);
-		maizeTextField.setPrefWidth(40);
+		
+
+		
+		saltTextField.setPrefColumnCount(8);
 		Label saltLabel = new Label("Salt:");
 		saltLabel.setPrefWidth(120);
-		gnutsTextField.setPrefWidth(40);
-
-		TextField saltTextField = new TextField();
-		saltTextField.setPrefColumnCount(8);
-		HBox saltBox = new HBox(saltLabel, saltTextField);
-		//saltBox.setAlignment(Pos.CENTER);
 		saltTextField.setPrefWidth(40);
+		HBox saltBox = new HBox(saltLabel, saltTextField);
+		
 
 		Button caButton = new Button("Calculate");
 		HBox buttonBox = new HBox(caButton);
 		buttonBox.setPadding(new Insets(20,0,0,0));
 		buttonBox.setAlignment(Pos.CENTER);
 
-		Line line1 = new Line(0,0,40,40);
+		//creating a button that will calculate 
+		caButton.setOnAction( e ->  buttonCalc());
+
+		//create a line dividing the inputs from the result
+		Line line1 = new Line(70,0,480,0);
 		HBox lineBox = new HBox(line1);
 		
-		line1.setStrokeWidth(10);
-		line1.setStroke(Color.BLACK);
-      	
 
-        VBox vBox = new VBox(topBox, maizeBox, soyaBox, gnutsBox, saltBox, buttonBox, lineBox);
+		Text intro = new Text("you will use (kg)");
+		HBox introBox = new HBox(intro);
+
+		//creating elements for the result of maize calculations
+		Label maizeResultLabel = new Label("Maize");
+		maizeResultLabel.setPrefWidth(120);
+		maizeResultLabel.setTextAlignment(TextAlignment.RIGHT);
+		maizeResultTextField.setPrefColumnCount(10);
+		maizeResultTextField.setPrefWidth(40);
+		HBox maizeResultBox = new HBox(maizeResultLabel, maizeResultTextField);
+
+		//creating elements for the result of soya calculations
+		Label soyaResultLabel = new Label("soya");
+		soyaResultLabel.setPrefWidth(120);
+		soyaResultTextField.setPrefColumnCount(10);
+		soyaResultTextField.setPrefWidth(40);
+		HBox soyaResultBox = new HBox(soyaResultLabel, soyaResultTextField);
+		
+		//creating elements for the result of groundnuts calculations
+		Label gnutsResultLabel = new Label("Groundnuts:");
+		gnutsResultLabel.setPrefWidth(120);
+		gnutsTextField.setPrefColumnCount(8);
+		HBox gnutsResultBox = new HBox(gnutsResultLabel, gnutsResultTextField);
+		
+		//creating elements for the result of salt calculations
+		Label saltResultLabel = new Label("Salt:");
+		saltResultLabel.setPrefWidth(120);
+		saltResultTextField.setPrefWidth(40);
+		saltResultTextField.setPrefColumnCount(8);
+		HBox saltResultBox = new HBox(saltResultLabel, saltResultTextField);
+		
+		HBox saltResultsBox = new HBox(pane);
+
+
+		//Creating a pane Vbox that will accomodate every instances created
+        VBox vBox = new VBox(topBox, maizeBox, soyaBox, gnutsBox, saltBox, buttonBox, lineBox,introBox, maizeResultBox, soyaResultBox, gnutsResultBox,saltResultBox,saltResultsBox);
 		Scene scene = new Scene(vBox,500,500);
 		vBox.setSpacing(10);
 		vBox.setPadding(new Insets(10, 20, 10, 20));
@@ -94,12 +128,40 @@ public class Loan extends Application{
 
 	}
 
+
+	public void buttonCalc(){	
+		//changing the values inputted by the user into values for declared variables
+		double amountMaize = Double.parseDouble(maizeTextField.getText());
+		double amountSoya = Double.parseDouble(soyaTextField.getText());
+		double amountGnuts = Double.parseDouble(gnutsTextField.getText());
+		double amountSalt = Double.parseDouble(saltTextField.getText());
+
+		//calculations of different crop
+		double maize = ((6.0/10)*amountMaize);
+		double soya = ((2.0/10)*amountSoya);
+		double gnuts = ((1.5/10)*amountGnuts);
+		double salt = ((0.5/10)*amountSalt);
+
+		maizeResultTextField.setText(String.format("%.2f", maize));
+		soyaResultTextField.setText(String.format("%.2f", soya));
+		gnutsResultTextField.setText(String.format("%.2f", gnuts));
+		saltResultTextField.setText(String.format("%.2f", salt));
+		// adding the result from all
+		double result = maize+soya+gnuts+salt;
+		Text results = new Text("You will make "+result+"kg of feed");
+		pane.add(results,3,10);
+		
+
+		}
+
+
+
+
+
+
+
+
+
+
 }
 
-class CustomePane {
-	 public void CustomPane(String text) {
-	 	System.out.println("hie");
-		 //getChildren().add(new Label(text)); 
-		 //setPadding(new Insets(11.5,12.5,13.5,14.5));
-	}
-}
