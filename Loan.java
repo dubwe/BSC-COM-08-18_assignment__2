@@ -13,6 +13,8 @@ import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.scene.shape.Line;
+import javafx.scene.paint.Color;
 
 
 
@@ -31,10 +33,6 @@ public class Loan extends Application{
 	public void start(Stage primaryStage){
 		
 
-		GridPane gridPane = new GridPane();
-		gridPane.setVgap(10);
-		gridPane.setHgap(4);
-
 		//Creating a Text object 
 		Text instruction = new Text("Enter ingredient amounts in Kilograms (kg)");
 		HBox topBox = new HBox(instruction);
@@ -48,32 +46,47 @@ public class Loan extends Application{
 		maizeTextField.setPrefColumnCount(10);
 		maizeTextField.setPrefWidth(40);
 		HBox maizeBox = new HBox(maizeLabel, maizeTextField);
+
+		Label soyaLabel = new Label("soya");
+		soyaLabel.setPrefWidth(120);
+		TextField soyaTextField = new TextField();
+		soyaTextField.setPrefColumnCount(10);
+		soyaTextField.setPrefWidth(40);
+		HBox soyaBox = new HBox(soyaLabel, soyaTextField);
+
+		Label gnutsLabel = new Label("Groundnuts:");
+		gnutsLabel.setPrefWidth(120);
+		TextField gnutsTextField = new TextField();
+		gnutsTextField.setPrefColumnCount(8);
+
+		HBox gnutsBox = new HBox(gnutsLabel, gnutsTextField);
+		maizeTextField.setPrefWidth(40);
+		Label saltLabel = new Label("Salt:");
+		saltLabel.setPrefWidth(120);
+		gnutsTextField.setPrefWidth(40);
+
+		TextField saltTextField = new TextField();
+		saltTextField.setPrefColumnCount(8);
+		HBox saltBox = new HBox(saltLabel, saltTextField);
+		//saltBox.setAlignment(Pos.CENTER);
+		saltTextField.setPrefWidth(40);
+
+		Button caButton = new Button("Calculate");
+		HBox buttonBox = new HBox(caButton);
+		buttonBox.setPadding(new Insets(20,0,0,0));
+		buttonBox.setAlignment(Pos.CENTER);
+
+		Line line1 = new Line(0,0,40,40);
+		HBox lineBox = new HBox(line1);
+		
+		line1.setStrokeWidth(10);
+		line1.setStroke(Color.BLACK);
       	
 
-      	//gridPane.add(text,7,0);
-		
-
-		gridPane.add(new Label("Maize"),7,2);
-		//gridPane.add(maizeSize,4,0);
-
-		//gridPane.add(new Label("Soya:"),2,1);
- 		//gridPane.add(soyaSize,4,1);
-
- 		//gridPane.add(new Label("Groundnuts:"),0,3);
-		//gridPane.add(soyaSize,2,3);
-
-
-		//gridPane.add(new Label("Salt"),0,4);
-		//gridPane.add(saltSize,3,4);
-
-
-		
- 	  
-		//BorderPane bpane = new BorderPane();
-		//bpane.setCenter(gridPane);
-		//bpane.setPadding(new Insets(11.5,12.5,13.5,14.5));
-        VBox vBox = new VBox(topBox, maizeBox);
+        VBox vBox = new VBox(topBox, maizeBox, soyaBox, gnutsBox, saltBox, buttonBox, lineBox);
 		Scene scene = new Scene(vBox,500,500);
+		vBox.setSpacing(10);
+		vBox.setPadding(new Insets(10, 20, 10, 20));
 		primaryStage.setTitle("Feed Calculator");
         primaryStage.setScene(scene);
         primaryStage.show();
